@@ -12,6 +12,7 @@ RUN \
   apt-get install -y python python-pip python-dev build-essential libyaml-dev
 
 RUN apt-get -y install git
+RUN apt-get -y install curl
 
 ADD commit-tag.sh /etc/commit-tag.sh
 RUN chmod +x /etc/commit-tag.sh
