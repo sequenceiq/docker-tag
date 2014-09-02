@@ -28,7 +28,11 @@ git config --global user.email "$COMMIT_EMAIL"
 
 MAVEN_URL=http://maven.sequenceiq.com/releases
 PACKAGE=com/sequenceiq
-FULLNAME=$PACKAGE/$PROJECT
+if [ -n "$PROJECT_MVN_URL" ]; then
+    FULLNAME=$PACKAGE/$PROJECT_MVN_URL
+else
+    FULLNAME=$PACKAGE/$PROJECT
+fi
 
 VERSION=$(curl -Ls $MAVEN_URL/$FULLNAME/maven-metadata.xml|sed -n "s/.*<version>\([^<]*\).*/\1/p" |tail -1)
 
