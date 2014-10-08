@@ -7,6 +7,7 @@
 : ${COMMIT_NAME:=jenkins}
 : ${COMMIT_EMAIL:=jenkins@sequenceiq.com}
 : ${PROJECT:=cloudbreak}
+: ${BRANCH:=master}
 
 # private github key comes from env variable KEY
 # docker run -e KEY=XXXX
@@ -42,5 +43,6 @@ echo latest jar version is $VERSION ...
 rm -rf /tmp/$PROJECT
 git clone git@github.com:sequenceiq/$PROJECT.git /tmp/$PROJECT
 cd /tmp/$PROJECT
+git checkout $BRANCH
 git tag -a $VERSION -m 'jenkins tag commit'
 git push -f --tags
