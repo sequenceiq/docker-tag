@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM node:0.10.32
 MAINTAINER SequenceIQ
 
 RUN locale-gen en_US.UTF-8

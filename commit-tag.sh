@@ -6,7 +6,7 @@
 
 : ${COMMIT_NAME:=jenkins}
 : ${COMMIT_EMAIL:=jenkins@sequenceiq.com}
-: ${PROJECT:=cloudbreak}
+: ${PROJECT:=cm-shell}
 : ${BRANCH:=master}
 
 # private github key comes from env variable KEY
@@ -27,22 +27,11 @@ ssh -T -o StrictHostKeyChecking=no  git@github.com
 git config --global user.name "$COMMIT_NAME"
 git config --global user.email "$COMMIT_EMAIL"
 
-MAVEN_URL=http://maven.sequenceiq.com/releases
-PACKAGE=com/sequenceiq
-if [ -n "$PROJECT_MVN_URL" ]; then
-    FULLNAME=$PACKAGE/$PROJECT_MVN_URL
-else
-    FULLNAME=$PACKAGE/$PROJECT
-fi
-
-VERSION=$(curl -Ls $MAVEN_URL/$FULLNAME/maven-metadata.xml|sed -n "s/.*<version>\([^<]*\).*/\1/p" |tail -1)
-
-echo latest jar version is $VERSION ...
-
-
 rm -rf /tmp/$PROJECT
 git clone git@github.com:sequenceiq/$PROJECT.git /tmp/$PROJECT
 cd /tmp/$PROJECT
 git checkout $BRANCH
-git tag -a $VERSION -m 'jenkins tag commit'
+npm install
+npm $RUN_COMMAND
+git push -f origin $BRANCH
 git push -f --tags
