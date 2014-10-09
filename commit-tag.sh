@@ -32,6 +32,6 @@ git clone git@github.com:sequenceiq/$PROJECT.git /tmp/$PROJECT
 cd /tmp/$PROJECT
 git checkout $BRANCH
 npm install
-npm $RUN_COMMAND
+npm $RUN_COMMAND -m "increase version [ci skip]"
 git push -f origin $BRANCH
 git push -f --tags
