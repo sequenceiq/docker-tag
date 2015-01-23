@@ -45,4 +45,4 @@ git clone git@github.com:sequenceiq/$PROJECT.git /tmp/$PROJECT
 cd /tmp/$PROJECT
 git checkout $BRANCH
 git tag -a $VERSION -m 'jenkins tag commit'
-git push -f --tags
+git push --tags
