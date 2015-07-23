@@ -9,8 +9,8 @@
 : ${PROJECT:=cb-shell}
 : ${BRANCH:=master}
 : ${ORGANIZATION:=sequenceiq}
-: ${PRE_RUN_COMMAND:=}
-: ${POST_RUN_COMMAND:=}
+: ${PRE_RUN_COMMAND:=echo pre run command}
+: ${POST_RUN_COMMAND:=echo post run command}
 
 # private github key comes from env variable KEY
 # docker run -e KEY=XXXX
