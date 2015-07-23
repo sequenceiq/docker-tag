@@ -36,7 +36,7 @@ cd /tmp/$PROJECT
 git checkout $BRANCH
 npm install
 npm install semver -g
-ACTUAL_VERSION=$(echo $(npm version)|sed s/{//g |sed s/}//g|sed 's/ //g'| cut -d \, -f 1|sed s/$PROJECT://g|sed "s/'//g")
+ACTUAL_VERSION=$(echo $(npm version)|sed 's/{//g' |sed 's/}//g'|sed 's/ //g'| cut -d \, -f 1|sed s/$PROJECT://g|sed "s/'//g")
 echo $ACTUAL_VERSION
 TEST=$(npm version $(semver $ACTUAL_VERSION -i minor)-rc.0)
 echo $TEST
