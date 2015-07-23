@@ -9,6 +9,8 @@
 : ${PROJECT:=cb-shell}
 : ${BRANCH:=master}
 : ${ORGANIZATION:=sequenceiq}
+: ${PRE_RUN_COMMAND:=}
+: ${POST_RUN_COMMAND:=}
 
 # private github key comes from env variable KEY
 # docker run -e KEY=XXXX
@@ -33,6 +35,4 @@ git clone git@github.com:$ORGANIZATION/$PROJECT.git /tmp/$PROJECT
 cd /tmp/$PROJECT
 git checkout $BRANCH
 npm install
-npm $RUN_COMMAND -m "increase version [ci skip]"
-git push -f origin $BRANCH
-git push -f --tags
+$PRE_RUN_COMMAND && npm $RUN_COMMAND -m "increase version [ci skip]" && git push -f origin $BRANCH && git push -f --tags && $POST_RUN_COMMAND
