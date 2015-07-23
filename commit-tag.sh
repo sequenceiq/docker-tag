@@ -35,6 +35,7 @@ git clone git@github.com:$ORGANIZATION/$PROJECT.git /tmp/$PROJECT
 cd /tmp/$PROJECT
 git checkout $BRANCH
 npm install
+npm install semver -g
 ACTUAL_VERSION=$(echo $(npm version)|sed s/{//g |sed 's/}//g'|sed 's/ //g'| cut -d \, -f 1|sed s/$PROJECT://g|sed "s/'//g")
 TEST=npm version $(semver $(semver $ACTUAL_VERSION -i minor) -i minor)-rc.0 
 git checkout -b $TEST 
