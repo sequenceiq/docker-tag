@@ -40,12 +40,4 @@ ACTUAL_VERSION=$(echo $(npm version)|sed s/{//g |sed s/}//g|sed 's/ //g'| cut -d
 echo $ACTUAL_VERSION
 TEST=npm version $(semver $ACTUAL_VERSION -i minor)-rc.0 
 echo $TEST
-git checkout -b $TEST 
-  && npm version $TEST -m "increase version [ci skip]" 
-  && git push -f origin $TEST 
-  && git push -f --tags 
-  && git checkout master 
-  && npm version $(semver $ACTUAL_VERSION -i minor)-dev.0 -m "increase version [ci skip]" 
-  && git push -f origin $BRANCH 
-  && git push -f --tags 
-  && $POST_RUN_COMMAND
+git checkout -b $TEST && npm version $TEST -m "increase version [ci skip]" && git push -f origin $TEST && git push -f --tags && git checkout master && npm version $(semver $ACTUAL_VERSION -i minor)-dev.0 -m "increase version [ci skip]"  && git push -f origin $BRANCH && git push -f --tags  && $POST_RUN_COMMAND
