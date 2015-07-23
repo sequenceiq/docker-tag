@@ -6,8 +6,9 @@
 
 : ${COMMIT_NAME:=jenkins}
 : ${COMMIT_EMAIL:=jenkins@sequenceiq.com}
-: ${PROJECT:=cm-shell}
+: ${PROJECT:=cb-shell}
 : ${BRANCH:=master}
+: ${ORGANIZATION:=sequenceiq}
 
 # private github key comes from env variable KEY
 # docker run -e KEY=XXXX
@@ -28,7 +29,7 @@ git config --global user.name "$COMMIT_NAME"
 git config --global user.email "$COMMIT_EMAIL"
 
 rm -rf /tmp/$PROJECT
-git clone git@github.com:sequenceiq/$PROJECT.git /tmp/$PROJECT
+git clone git@github.com:$ORGANIZATION/$PROJECT.git /tmp/$PROJECT
 cd /tmp/$PROJECT
 git checkout $BRANCH
 npm install
