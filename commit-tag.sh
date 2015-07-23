@@ -48,12 +48,12 @@ echo $ACTUAL_VERSION
 TEST=$(npm version $(semver $ACTUAL_VERSION -i minor)-rc.0)
 echo $TEST
 git checkout -b $TEST 
-npm cache clean
 npm version $TEST -m "increase version [ci skip]" 
 git push -f origin $TEST
 git push -f --tags 
 git checkout master 
 npm cache clean
+npm install
 npm version $(semver $ACTUAL_VERSION -i minor)-dev.0 -m "increase version [ci skip]"  
 git push -f origin $BRANCH 
 git push -f --tags
