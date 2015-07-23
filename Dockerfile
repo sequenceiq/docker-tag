@@ -1,4 +1,4 @@
-FROM node:0.10.32
+FROM node:0.12.7-wheezy
 MAINTAINER SequenceIQ
 
 ENV LANG en_US.UTF-8
