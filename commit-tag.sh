@@ -68,7 +68,8 @@ dev_to_dev() {
 }
 
 rc_to_rc() {
-  
+  ACTUAL_BRANCH=$(echo $GIT_BRANCH|cut -d \/ -f 2)       
+  git checkout $ACTUAL_BRANCH && git push -f origin $ACTUAL_BRANCH && git push -f --tags
 }
 
 rc_to_release() {
