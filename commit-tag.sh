@@ -72,4 +72,29 @@ rc_to_rc() {
   git checkout $ACTUAL_BRANCH && npm version prerelease -m "increase version [ci skip]" && git push -f origin $ACTUAL_BRANCH && git push -f --tags
 }
 
+rc_to_release() {
+  git checkout $BRANCH
+  ACTUAL_VERSION=$(echo $(npm version))
+  ACTUAL_VERSION=$(echo $ACTUAL_VERSION|sed "s/{//g")
+  ACTUAL_VERSION=$(echo $ACTUAL_VERSION|sed "s/}//g")
+  ACTUAL_VERSION=$(echo $ACTUAL_VERSION|sed "s/ //g")
+  ACTUAL_VERSION=$(echo $ACTUAL_VERSION|cut -d \, -f 1)
+  ACTUAL_VERSION=$(echo $ACTUAL_VERSION|sed "s/$PROJECT://g")
+  ACTUAL_VERSION=$(echo $ACTUAL_VERSION|sed "s/'//g")
+  ACTUAL_VERSION=$(echo $ACTUAL_VERSION|sed "s/'//g")
+  ACTUAL_VERSION=$(echo $ACTUAL_VERSION|cut -d \- -f 1)
+  echo $ACTUAL_VERSION
+
+  git checkout -b release-$ACTUAL_VERSION
+  npm version $ACTUAL_VERSION -m "increase version [ci skip]" && git push -f origin release-$ACTUAL_VERSION && git push -f --tags
+  
+  git checkout $BRANCH
+  RC_BRANCH_MAJOR=$(echo $ACTUAL_VERSION|cut -d \. -f 1)
+  RC_BRANCH_MINOR=$(echo $ACTUAL_VERSION|cut -d \. -f 2)
+  RC_BRANCH_PATCH=$(echo $ACTUAL_VERSION|cut -d \. -f 3)
+  NEW_VERSION=$RC_BRANCH_MAJOR.$RC_BRANCH_MINOR.$RC_BRANCH_PATCH
+  PATCHED_VERSION=$(semver $NEW_VERSION -i patch)-rc.0
+  npm version $PATCHED_VERSION -m "increase version [ci skip]" && git push -f origin $BRANCH && git push -f --tags
+}
+
 $COMMAND
