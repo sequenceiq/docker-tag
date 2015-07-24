@@ -45,15 +45,17 @@ ACTUAL_VERSION=$(echo $ACTUAL_VERSION|sed "s/$PROJECT://g")
 ACTUAL_VERSION=$(echo $ACTUAL_VERSION|sed "s/'//g")
 
 echo $ACTUAL_VERSION
-TEST=$(npm version $(semver $ACTUAL_VERSION -i minor)-rc.0)
-echo $TEST
-git checkout -b $TEST 
-npm version $TEST -m "increase version [ci skip]" 
-git push -f origin $TEST
+RC_VERSION=$(semver $ACTUAL_VERSION -i minor)-rc.0
+RC_BRANCH_MAJOR=$(semver $ACTUAL_VERSION -i minor|cut -d \. -f 1)
+RC_BRANCH_MINOR=$(semver $ACTUAL_VERSION -i minor|cut -d \. -f 2)
+RC_BRANCH=rc-$RC_BRANCH_MAJOR.$RC_BRANCH_MINOR
+echo $RC_VERSION
+git checkout -b $RC_BRANCH
+npm version $RC_VERSION -m "increase version [ci skip]" 
+git push -f origin $RC_BRANCH
 git push -f --tags 
 git checkout master 
-npm cache clean
-npm install
-npm version $(semver $ACTUAL_VERSION -i minor)-dev.0 -m "increase version [ci skip]"  
+NEW_VERSION=$RC_BRANCH_MAJOR.$RC_BRANCH_MINOR.0
+npm version $(semver $NEW_VERSION -i minor)-dev.0 -m "increase version [ci skip]"  
 git push -f origin $BRANCH 
 git push -f --tags
