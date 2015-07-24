@@ -63,4 +63,8 @@ dev_to_rc() {
   git push -f --tags
 }
 
+dev_to_dev() {
+  npm version prerelease -m "increase version [ci skip]" && git push -f origin $BRANCH && git push -f --tags
+}
+
 $COMMAND
