@@ -72,8 +72,4 @@ rc_to_rc() {
   git checkout $ACTUAL_BRANCH && git push -f origin $ACTUAL_BRANCH && git push -f --tags
 }
 
-rc_to_release() {
-  
-}
-
 $COMMAND
