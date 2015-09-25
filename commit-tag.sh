@@ -50,9 +50,9 @@ dev_to_rc() {
   git push -f --tags
   git checkout master
   NEW_VERSION=$RC_BRANCH_MAJOR.$RC_BRANCH_MINOR.0
-  NEW_DEV_VERSION=$(semver $NEW_VERSION -i minor)-dev.0
+  NEW_DEV_VERSION=$(semver $NEW_VERSION -i minor)
   echo "$NEW_VERSION" > VERSION
-  git add VERSION && git commit -m "increase version [ci skip]" && git tag $NEW_DEV_VERSION
+  git add VERSION && git commit -m "increase version [ci skip]" && git tag $NEW_DEV_VERSION-dev.0
   git push -f origin master
   git push -f --tags
 }
