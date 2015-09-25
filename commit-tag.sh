@@ -84,7 +84,7 @@ rc_to_release() {
   ACTUAL_VERSION=$(echo $(git describe --abbrev=0 --tags))
   echo $ACTUAL_VERSION
   RELEASE_VERSION=$(semver $ACTUAL_VERSION -i)
-  git checkout -b release-$ACTUAL_VERSION
+  git checkout -b release-$RELEASE_VERSION
   git tag $RELEASE_VERSION
   git push -f --tags
   git push origin release-$RELEASE_VERSION
