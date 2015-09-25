@@ -65,11 +65,12 @@ dev_to_dev() {
   if [[ -z "$ACTUAL_VERSION" ]]; then
     ACTUAL_VERSION=$FILE_VAL
     DEV_VERSION=1
+    NEW_VERSION=$(semver $ACTUAL_VERSION)-dev.$DEV_VERSION
   else
     DEV_VERSION=$(echo $ACTUAL_VERSION | tr '.' '\n'|tail -1)
     DEV_VERSION=$((DEV_VERSION+1))
+    NEW_VERSION=$(semver $ACTUAL_VERSION -i)-dev.$DEV_VERSION
   fi
-  NEW_VERSION=$(semver $ACTUAL_VERSION)-dev.$DEV_VERSION
   echo $NEW_VERSION
   git tag $NEW_VERSION
   git push -f --tags
