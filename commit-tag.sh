@@ -100,7 +100,6 @@ rc_to_release() {
   git add VERSION && git commit -m "increase version [ci skip]" && git tag $PATCHED_VERSION-rc.0
   git push -f origin $BRANCH
   git push -f --tags
-  git push -f --tags
 }
 
 $COMMAND
