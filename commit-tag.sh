@@ -97,9 +97,11 @@ rc_to_release() {
   RC_BRANCH_PATCH=$(echo $RC_BRANCH_PATCH| sed "s/-rc//g")
   NEW_VERSION=$RC_BRANCH_MAJOR.$RC_BRANCH_MINOR.$RC_BRANCH_PATCH
   PATCHED_VERSION=$(semver $NEW_VERSION -i patch)
+  git $BRANCH
   echo "$PATCHED_VERSION" > VERSION
   git add VERSION && git commit -m "increase version [ci skip]" && git tag $PATCHED_VERSION-rc.0
   git push -f origin $BRANCH
+  git tag $PATCHED_VERSION
   git push -f --tags
 }
 
