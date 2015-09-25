@@ -51,7 +51,9 @@ dev_to_rc() {
   git checkout master
   NEW_VERSION=$RC_BRANCH_MAJOR.$RC_BRANCH_MINOR.0
   NEW_DEV_VERSION=$(semver $NEW_VERSION -i minor)-dev.0
-  git tag $NEW_DEV_VERSION
+  echo "$NEW_VERSION" > VERSION
+  git add VERSION && git commit -m "increase version [ci skip]" && git tag $NEW_DEV_VERSION
+  git push -f origin master
   git push -f --tags
 }
 
@@ -93,8 +95,11 @@ rc_to_release() {
   RC_BRANCH_PATCH=$(echo $ACTUAL_VERSION|cut -d \. -f 3)
   RC_BRANCH_PATCH=$(echo $RC_BRANCH_PATCH| sed "s/-rc//g")
   NEW_VERSION=$RC_BRANCH_MAJOR.$RC_BRANCH_MINOR.$RC_BRANCH_PATCH
-  PATCHED_VERSION=$(semver $NEW_VERSION -i patch)-rc.0
-  git tag $PATCHED_VERSION
+  PATCHED_VERSION=$(semver $NEW_VERSION -i patch)
+  echo "$PATCHED_VERSION" > VERSION
+  git add VERSION && git commit -m "increase version [ci skip]" && git tag $PATCHED_VERSION-rc.0
+  git push -f origin $BRANCH
+  git push -f --tags
   git push -f --tags
 }
 
