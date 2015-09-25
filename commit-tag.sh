@@ -63,12 +63,13 @@ dev_to_dev() {
   FILE_VAL=`cat VERSION`
   ACTUAL_VERSION=$(git tag |grep $FILE_VAL|grep "dev"|tail -1)
   if [[ -z "$ACTUAL_VERSION" ]]; then
+    ACTUAL_VERSION=$FILE_VAL
+    DEV_VERSION=1
+  else
     DEV_VERSION=$(echo $ACTUAL_VERSION | tr '.' '\n'|tail -1)
     DEV_VERSION=$((DEV_VERSION+1))
-  else
-    DEV_VERSION=$FILE_VAL-dev.1
   fi
-  NEW_VERSION=$(semver $ACTUAL_VERSION -i patch)-dev.$DEV_VERSION
+  NEW_VERSION=$(semver $ACTUAL_VERSION)-dev.$DEV_VERSION
   echo $NEW_VERSION
   git tag $NEW_VERSION
   git push -f --tags
