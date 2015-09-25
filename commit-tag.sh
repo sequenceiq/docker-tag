@@ -38,7 +38,8 @@ npm install
 npm install semver -g
 
 dev_to_rc() {
-  ACTUAL_VERSION=$(echo $(git describe --abbrev=0 --tags))
+  FILE_VAL=`cat VERSION`
+  ACTUAL_VERSION=$(git tag |grep $FILE_VAL|grep "dev"|tail -1)
   echo $ACTUAL_VERSION
   RC_VERSION=$(semver $ACTUAL_VERSION -i minor)-rc.0
   RC_BRANCH_MAJOR=$(semver $ACTUAL_VERSION -i minor|cut -d \. -f 1)
@@ -59,7 +60,8 @@ dev_to_rc() {
 }
 
 dev_to_dev() {
-  ACTUAL_VERSION=$(echo $(git describe --abbrev=0 --tags))
+  FILE_VAL=`cat VERSION`
+  ACTUAL_VERSION=$(git tag |grep $FILE_VAL|grep "dev"|tail -1)
   DEV_VERSION=$(echo $ACTUAL_VERSION | tr '.' '\n'|tail -1)
   DEV_VERSION=$((DEV_VERSION+1))
   NEW_VERSION=$(semver $ACTUAL_VERSION -i patch)-dev.$DEV_VERSION
@@ -69,9 +71,12 @@ dev_to_dev() {
 }
 
 rc_to_rc() {
+  FILE_VAL=`cat VERSION`
+  ACTUAL_VERSION=$(git tag |grep $FILE_VAL|grep "rc"|tail -1)
   ACTUAL_BRANCH=$(echo $GIT_BRANCH|cut -d \/ -f 2)
   git checkout $ACTUAL_BRANCH
-  LAST_TAG=$(echo $(git describe --abbrev=0 --tags))
+  FILE_VAL=`cat VERSION`
+  LAST_TAG=$(git tag |grep $FILE_VAL|grep "rc"|tail -1)
   RC_VERSION=$(echo $LAST_TAG | tr '.' '\n'|tail -1)
   RC_VERSION=$((RC_VERSION+1))
   NEW_RC=$(semver $LAST_TAG -i patch)-rc.$RC_VERSION
@@ -81,7 +86,8 @@ rc_to_rc() {
 
 rc_to_release() {
   git checkout $BRANCH
-  ACTUAL_VERSION=$(echo $(git describe --abbrev=0 --tags))
+  FILE_VAL=`cat VERSION`
+  ACTUAL_VERSION=$(git tag |grep $FILE_VAL|grep "rc"|tail -1)
   echo $ACTUAL_VERSION
   RELEASE_VERSION=$(semver $ACTUAL_VERSION -i)
   git checkout -b release-$RELEASE_VERSION
