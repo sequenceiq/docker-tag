@@ -83,6 +83,9 @@ rc_to_rc() {
   git checkout $ACTUAL_BRANCH
   FILE_VAL=`cat VERSION`
   LAST_TAG=$(git tag |grep $FILE_VAL|grep "rc"|tail -1)
+  if [[ -z "$LAST_TAG" ]]; then
+    LAST_TAG=$FILE_VAL-rc.0
+  fi
   RC_VERSION=$(echo $LAST_TAG | tr '.' '\n'|tail -1)
   RC_VERSION=$((RC_VERSION+1))
   NEW_RC=$(semver $LAST_TAG -i patch)-rc.$RC_VERSION
