@@ -61,7 +61,7 @@ dev_to_rc() {
 
 dev_to_dev() {
   FILE_VAL=`cat VERSION`
-  ACTUAL_VERSION=$(git tag |grep $FILE_VAL|grep "dev"|tail -1)
+  ACTUAL_VERSION=$(git tag |grep $FILE_VAL|grep "dev"|sed "s/$FILE_VAL-dev.//g"|sort -n|tail -1)
   if [[ -z "$ACTUAL_VERSION" ]]; then
     ACTUAL_VERSION=$FILE_VAL
     DEV_VERSION=0
@@ -78,7 +78,7 @@ dev_to_dev() {
 
 rc_to_rc() {
   FILE_VAL=`cat VERSION`
-  ACTUAL_VERSION=$(git tag |grep $FILE_VAL|grep "rc"|tail -1)
+  ACTUAL_VERSION=$(git tag |grep $FILE_VAL|grep "rc"|sed "s/$FILE_VAL-rc.//g"|sort -n|tail -1)
   ACTUAL_BRANCH=$(echo $GIT_BRANCH|cut -d \/ -f 2)
   git checkout $ACTUAL_BRANCH
   FILE_VAL=`cat VERSION`
