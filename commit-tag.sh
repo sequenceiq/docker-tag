@@ -61,15 +61,16 @@ dev_to_rc() {
 
 dev_to_dev() {
   FILE_VAL=`cat VERSION`
+  ACTUAL_VERSION1=$(git tag |grep $FILE_VAL|grep "dev"|tail -1)
   ACTUAL_VERSION=$(git tag |grep $FILE_VAL|grep "dev"|sed "s/$FILE_VAL-dev.//g"|sort -n|tail -1)
   if [[ -z "$ACTUAL_VERSION" ]]; then
     ACTUAL_VERSION=$FILE_VAL
     DEV_VERSION=0
-    NEW_VERSION=$(semver $ACTUAL_VERSION)-dev.$DEV_VERSION
+    NEW_VERSION=$(semver $ACTUAL_VERSION1)-dev.$DEV_VERSION
   else
     DEV_VERSION=$(echo $ACTUAL_VERSION | tr '.' '\n'|tail -1)
     DEV_VERSION=$((DEV_VERSION+1))
-    NEW_VERSION=$(semver $ACTUAL_VERSION -i)-dev.$DEV_VERSION
+    NEW_VERSION=$(semver $ACTUAL_VERSION1 -i)-dev.$DEV_VERSION
   fi
   echo $NEW_VERSION
   git tag $NEW_VERSION
