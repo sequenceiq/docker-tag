@@ -38,8 +38,12 @@ npm install
 npm install semver -g
 
 dev_to_rc() {
+  echo fileval begin
   FILE_VAL=`cat VERSION`
+  echo fileval end
+  echo actual version begin
   ACTUAL_VERSION=$(git tag |grep $FILE_VAL|grep "dev"|tail -1)
+  echo actual version end
   echo $ACTUAL_VERSION
   RC_VERSION=$(semver $ACTUAL_VERSION -i minor)-rc.0
   RC_BRANCH_MAJOR=$(semver $ACTUAL_VERSION -i minor|cut -d \. -f 1)
