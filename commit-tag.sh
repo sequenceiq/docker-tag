@@ -90,6 +90,8 @@ rc_to_rc() {
   LAST_TAG=$(git tag |grep $FILE_VAL|grep "rc"|tail -1)
   if [[ -z "$LAST_TAG" ]]; then
     LAST_TAG=$FILE_VAL-rc.0
+  else
+    LAST_TAG=$FILE_VAL-rc.$ACTUAL_VERSION
   fi
   RC_VERSION=$(echo $LAST_TAG | tr '.' '\n'|tail -1)
   RC_VERSION=$((RC_VERSION+1))
