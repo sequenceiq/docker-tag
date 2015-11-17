@@ -101,7 +101,8 @@ rc_to_rc() {
 }
 
 rc_to_release() {
-  git checkout $BRANCH
+  ACTUAL_BRANCH=$(echo $GIT_BRANCH|cut -d \/ -f 2)
+  git checkout $ACTUAL_BRANCH
   FILE_VAL=`cat VERSION`
   ACTUAL_VERSION=$(git tag |grep $FILE_VAL|grep "rc"|tail -1)
   echo $ACTUAL_VERSION
