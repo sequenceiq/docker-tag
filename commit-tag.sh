@@ -81,11 +81,11 @@ dev_to_dev() {
   git push -f --tags
 }
 
-rc_to_rc() {
-  git checkout $BRANCH
+rc_to_rc() {  
+  ACTUAL_BRANCH=$(echo $GIT_BRANCH|cut -d \/ -f 2)
+  git checkout $ACTUAL_BRANCH
   FILE_VAL=`cat VERSION`
   ACTUAL_VERSION=$(git tag |grep $FILE_VAL|grep "rc"|sed "s/$FILE_VAL-rc.//g"|sort -n|tail -1)
-  ACTUAL_BRANCH=$(echo $GIT_BRANCH|cut -d \/ -f 2)
   FILE_VAL=`cat VERSION`
   LAST_TAG=$(git tag |grep $FILE_VAL|grep "rc"|tail -1)
   if [[ -z "$LAST_TAG" ]]; then
